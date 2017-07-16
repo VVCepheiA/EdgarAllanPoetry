@@ -59,7 +59,7 @@ function generateTrial() {
   trials[trial_id] = {
     "fake_poem": fake_id,
     "type": type,
-    "answer": false
+		"user_responded": false
   };
 
   var poem = getPoem(type);
@@ -118,35 +118,32 @@ function tallyResults() {
   var humanTotal = 0;
   var rnnRight = 0;
   var humanRight = 0;
+  var rnnClickedHuman = 0;
+  var humanClickedHuman = 0;
 
   for (var key in trials) {
     var trial = trials[key];
-    // if (!trial.answer)
-    //   continue;
+    if (!trial.user_responded)
+      continue;
 
     // fake_poem == true if it is from human
-    // answer == true if the user click humanButton
     if (trial.type == "rnn") {
       rnnTotal++;
-      // fake_poem will be true
-      // people got it right if the pick compubterButton (answer = false)
-      if (trial.fake_poem != trial.answer) {
-        rnnRight++;
-      }
+			if (trial.clicked_human) {
+				rnnClickedHuman++;
+			}
     } else if (trial.type == "human") {
       humanTotal++;
-      // fake_poem will be false
-      // people got it right if the pick humanButton (answer = true)
-      if (trial.fake_poem != trial.answer) {
-        humanRight++;
+      if (trial.clicked_human) {
+        humanClickedHuman++;
       }
     }
   }
 
   return {"rnnTotal": rnnTotal,
     "humanTotal": humanTotal,
-    "rnnRight": rnnRight,
-    "humanRight": humanRight};
+    "rnnClickedHuman": rnnClickedHuman,
+    "humanClickedHuman": humanClickedHuman};
 }
 
 app.get('/eap/charts', function(req, res) {
@@ -155,10 +152,11 @@ app.get('/eap/charts', function(req, res) {
 
 app.get('/eap/chartInfo', function(req, res){
   var results = tallyResults();
-  results.humanRight += 1;
-  results.humanTotal += 1;
-  results.rnnRight +=1;
-  results.rnnTotal +=1;
+  // all added one to avoid render problem in chart
+  results.humanClickedHuman += 1;
+  results.humanTotal += 2;
+  results.rnnClickedHuman += 1;
+  results.rnnTotal += 2;
   res.send(results);
 });
 
@@ -173,18 +171,21 @@ app.get('/eap/', function (req, res) {
   });
 });
 
-// humanButton: 'answer': true
-// computerButton: 'answer': false
 app.post('/eap/ajaxSendData', function(req, res) {
   if (!(req.body.trial_id in trials)) {
     res.send({"result": false});
     return;
   }
-  trials[req.body.trial_id].answer = req.body.answer === "true";
+  trials[req.body.trial_id].user_responded = req.body.user_responded === "true";
+  trials[req.body.trial_id].clicked_human = req.body.clicked_human === "true";
+
+	console.log("fakepoem: " + trials[req.body.trial_id].fake_poem + typeof trials[req.body.trial_id].fake_poem
+		+ " clicked_human: "+ trials[req.body.trial_id].clicked_human + typeof trials[req.body.trial_id].clicked_human);
+  console.log(typeof trials[req.body.trial_id].clicked_human + " " + trials[req.body.trial_id].clicked_human);
 
   // return true if correct
-  // correct: answer (true if clicked humanButton) != fake_poem (not from human)
-  res.send({"result": trials[req.body.trial_id].answer != trials[req.body.trial_id].fake_poem});
+  // correct: clicked_human (true if user clicked humanButton) !== fake_poem (not from human)
+  res.send({"result": trials[req.body.trial_id].clicked_human !== trials[req.body.trial_id].fake_poem});
 });
 
 app.get('/eap/ajaxGetData', function(req, res){
