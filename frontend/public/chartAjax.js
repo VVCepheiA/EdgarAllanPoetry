@@ -1,34 +1,36 @@
-var markovData = [
+// Changelog: humanData -> Human
+var humanData = [
     {
-	label: 'Markov Chain Correct',
+	label: 'human Chain Correct',
 	value: 5,
 	color: '#174D6B'
     },
     {
-	label: 'Markov Chain Incorrect',
+	label: 'human Chain Incorrect',
 	value: 5,
 	color: '#91C6B2'
     }
 ];
+// Changelog: rnn -> rnn
 var rnnData = [
     {
-	label: 'Recurrent Neural Network Correct',
+	label: 'RNN Correct',
 	value: 5,
 	color: '#174D6B'
     },
     {
-	label: 'Recurrant Neural Network Incorrect',
+	label: 'RNN Incorrect',
 	value: 5,
 	color: '#91C6B2'
     }
 ];
-var markovChart;
+var humanChart;
 var rnnChart;
 $(document).ready(function()
 		  {
 		      //alert("document ready");
-		      var markovContext = document.getElementById('markov').getContext('2d');
-		      markovChart = new Chart(markovContext).Pie(markovData);
+		      var humanContext = document.getElementById('human').getContext('2d');
+		      humanChart = new Chart(humanContext).Pie(humanData);
 		      var rnnContext = document.getElementById('rnn').getContext('2d');
 		      rnnChart = new Chart(rnnContext).Pie(rnnData);
 		      getTotals();
@@ -39,12 +41,12 @@ $(document).ready(function()
 		  })
 function getTotals() {
     $.ajax({url: "/eap/chartInfo", success: function(result){
-	//alert(result.markovRight);
-	if (markovChart.segments[0].value != result.markovRight || markovChart.segments[1].value != (result.markovTotal - result.markovRight))
+	//alert(result.humanRight);
+	if (humanChart.segments[0].value != result.humanRight || humanChart.segments[1].value != (result.humanTotal - result.humanRight))
 	{
-	    markovChart.segments[0].value = result.markovRight;
-	    markovChart.segments[1].value = result.markovTotal-result.markovRight;
-	    markovChart.update();
+	    humanChart.segments[0].value = result.humanRight;
+	    humanChart.segments[1].value = result.humanTotal-result.humanRight;
+	    humanChart.update();
 	}
 	if (rnnChart.segments[0].value != result.rnnRight || rnnChart.segments[1].value != (result.rnnTotal - result.rnnRight)) {
 	    rnnChart.segments[0].value = result.rnnRight;
@@ -54,7 +56,7 @@ function getTotals() {
 
 
 	console.log(JSON.stringify(result));
-	$("#markovP").text(100-(~~((result.markovRight / result.markovTotal)*100)) + "%");
+	$("#humanP").text(100-(~~((result.humanRight / result.humanTotal)*100)) + "%");
 	
 	$("#rnnP").text(100-(~~((result.rnnRight / result.rnnTotal)*100)) + "%");
 
