@@ -211,6 +211,7 @@ app.get('/eap/scoreboard', function (req, res) {
   res.render('scoreboard', {"people": people});
 });
 
-app.listen(3001, "127.0.0.1", function () {
+var port = process.env.PORT || 8080;
+app.listen(port, "127.0.0.1", function () {
   console.log("Running");
 });
