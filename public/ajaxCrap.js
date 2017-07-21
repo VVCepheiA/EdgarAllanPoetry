@@ -2,7 +2,7 @@ $(document).ready(function() {
   $("#humanButton").click(function() {
     var trial_id = $("#humanButton").attr("trial_id");
     var poem_id = 0;
-    $.post("/eap/ajaxSendData",
+    $.post("/ajaxSendData",
       {'trial_id': trial_id,
         'clicked_human': true,
         'user_responded': true},
@@ -16,7 +16,7 @@ $(document).ready(function() {
   $("#computerButton").click(function() {
     var trial_id = $("#computerButton").attr("trial_id");
     var poem_id = 1;
-    $.post("/eap/ajaxSendData",
+    $.post("/ajaxSendData",
       {'trial_id': trial_id,
         'clicked_human': false,
         'user_responded': true},
@@ -41,7 +41,7 @@ function updateCounter(result) {
 }
 
 function updatePoems(){
-  $.ajax({url: "/eap/ajaxGetData", success: function(result){
+  $.ajax({url: "/ajaxGetData", success: function(result){
     document.getElementById('choice1').innerHTML = result.poem1;
 
     $('#choice1').css('background-color', result.poem1color);

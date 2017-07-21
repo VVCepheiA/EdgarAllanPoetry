@@ -40,7 +40,7 @@ $(document).ready(function()
   }, 1000);
 })
 function getTotals() {
-  $.ajax({url: "/eap/chartInfo", success: function(result){
+  $.ajax({url: "/chartInfo", success: function(result){
     //alert(result.humanRight);
     if (humanChart.segments[0].value != result.humanClickedHuman || humanChart.segments[1].value != (result.humanTotal - result.humanClickedHuman))
     {

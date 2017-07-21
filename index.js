@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var Q = require("q");
 
-app.use("/eap/", express.static('public'));
+app.use("/", express.static('public'));
 
 const pythonShell = require('python-shell');
 const bodyParser = require('body-parser');
@@ -148,11 +148,11 @@ function tallyResults() {
     "humanClickedHuman": humanClickedHuman};
 }
 
-app.get('/eap/charts', function(req, res) {
+app.get('/charts', function(req, res) {
   res.render('charts');
 });
 
-app.get('/eap/chartInfo', function(req, res){
+app.get('/chartInfo', function(req, res){
   var results = tallyResults();
   // all added one to avoid render problem in chart
   results.humanClickedHuman += 1;
@@ -162,7 +162,7 @@ app.get('/eap/chartInfo', function(req, res){
   res.send(results);
 });
 
-app.get('/eap/', function (req, res) {
+app.get('/', function (req, res) {
   generateTrial().then(function (trial) {
     res.render('turing',
       { "poem1": trial.poem,
@@ -173,7 +173,7 @@ app.get('/eap/', function (req, res) {
   });
 });
 
-app.post('/eap/ajaxSendData', function(req, res) {
+app.post('/ajaxSendData', function(req, res) {
   if (!(req.body.trial_id in trials)) {
     res.send({"result": false});
     return;
@@ -186,7 +186,7 @@ app.post('/eap/ajaxSendData', function(req, res) {
   res.send({"result": trials[req.body.trial_id].clicked_human !== trials[req.body.trial_id].fake_poem});
 });
 
-app.get('/eap/ajaxGetData', function(req, res){
+app.get('/ajaxGetData', function(req, res){
   generateTrial().then(function (trial) {
     res.send({ "poem1": trial.poem,
       "trial_id": trial.trial_id,
@@ -196,11 +196,11 @@ app.get('/eap/ajaxGetData', function(req, res){
   });
 });
 
-app.get('/eap/scores', function(req, res) {
+app.get('/scores', function(req, res) {
   res.render("leaderboard", {});
 });
 
-app.get('/eap/scoreboard', function (req, res) {
+app.get('/scoreboard', function (req, res) {
   var people = [
     { "name": "John", "correct": 5, "incorrect": 5, "percent correct": "50%"},
     { "name": "Some other guy", "correct": 100, "incorrect": 25, "percent correct": "asfa$%"},
