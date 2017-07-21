@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import random
 import os
 
@@ -10,5 +13,5 @@ def pick(rel_path="human.txt"):
 		lines = txt.readlines()
 		start = random.randrange(0,len(lines))
 		start -= start % 4
-
-		print("".join(lines[start:(start+4)]))
+		result = "".join(lines[start:(start+4)])
+		print(result)
