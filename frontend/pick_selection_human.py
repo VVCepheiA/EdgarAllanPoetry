@@ -1,6 +1,6 @@
 import random
 
-txt = open('./markov.txt')
+txt = open('./human.txt')
 lines = txt.readlines()
 start = random.randrange(0,len(lines))
 start -= start % 4

@@ -1,3 +1,6 @@
+# Acknowledgement
+Thanks to Ryan Marcus for [the great project](https://github.com/RyanMarcus/EdgarAllanPoetry)
+
 # Inspiration
 
 I'm not a very good poet, but you know who is?  Edgar Allan Poe and Sylvia Plath.
