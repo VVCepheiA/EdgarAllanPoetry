@@ -179,10 +179,6 @@ app.post('/eap/ajaxSendData', function(req, res) {
   trials[req.body.trial_id].user_responded = req.body.user_responded === "true";
   trials[req.body.trial_id].clicked_human = req.body.clicked_human === "true";
 
-	console.log("fakepoem: " + trials[req.body.trial_id].fake_poem + typeof trials[req.body.trial_id].fake_poem
-		+ " clicked_human: "+ trials[req.body.trial_id].clicked_human + typeof trials[req.body.trial_id].clicked_human);
-  console.log(typeof trials[req.body.trial_id].clicked_human + " " + trials[req.body.trial_id].clicked_human);
-
   // return true if correct
   // correct: clicked_human (true if user clicked humanButton) !== fake_poem (not from human)
   res.send({"result": trials[req.body.trial_id].clicked_human !== trials[req.body.trial_id].fake_poem});
