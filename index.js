@@ -1,6 +1,11 @@
 var express = require('express');
 var app = express();
 var Q = require("q");
+var http = require("http");
+
+setInterval(function() {
+  http.get("http://poetrygen.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
 
 app.use("/", express.static('public'));
 
