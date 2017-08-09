@@ -1,33 +1,31 @@
-# Acknowledgement
-Thanks to Ryan Marcus for [the great project](https://github.com/RyanMarcus/EdgarAllanPoetry)
-
-# Inspiration
-
-I'm not a very good poet, but you know who is?  Edgar Allan Poe and Sylvia Plath.
-
 ## What it does
 
-EdgarAllanPoetry tests users' ability to tell computer-generated poetry from that of the English language's best poets.
+A Turing Test for [Chinese Poetry Generation](https://cs.uwaterloo.ca/~mli/Simon_Vera.pdf)
 
 ## How we built it
 
-The poetry is generated randomly in three ways:
+The poetry is generated randomly in two ways:
 
-1.  Poems pulled verbatim from their authors
-2.  Poems generated using a Markov Chain on the same corpus
-3.  Poems generated using a Long Short Term Memory Recurrent Neural Network (lstm rnn) with TensorFlow and Keras on the corpus.
+1.  4000 poems were randomly sampled from 70000+ poems written by human
+2.  4000 poems were generated using bidirectional RNN with attention mechanism
 
 The website was built on NodeJs and the color scheme changes depending on the mood of the poems using Indico.
 
 ## Demo:
 
-- [Edgar Allan Poetry](https://rmarcus.info/eap/)
-- [stats](https://rmarcus.info/eap/charts)
+- [Chinese Poetry Generation](http://ming-gpu-3.cs.uwaterloo.ca:8080)
+- [Stats](http://ming-gpu-3.cs.uwaterloo.ca:8080/charts)
 
-## What's next for EdgarAllanPoetry
+## Dependency:
 
-- Write a novel?
-- Discover the lost sonnets of Shakespeare?
+- Node.js
+- npm
 
-## HampHack 2016 AI Winner!
-[![HampHack](http://i.imgur.com/vLieCcb.png)](https://docs.google.com/spreadsheets/d/145aDRKhmVcEKU1mvlsxvyxCf9OcwJWbuOx9GlLpghxU/edit#gid=0)
+
+## How to run it:
+`npm install`
+`npm start`
+
+# Acknowledgement
+Thanks to Ryan Marcus for [the great project](https://github.com/RyanMarcus/EdgarAllanPoetry)
+Our implementation of RNN was mainly based on [this paper](https://arxiv.org/abs/1610.09889)
